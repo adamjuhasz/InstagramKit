@@ -367,7 +367,10 @@ typedef enum
                failure(error,[[operation response] statusCode]);
 #else
            failure:^(NSURLSessionDataTask *task, NSError *error) {
-               failure(error,((NSHTTPURLResponse *)[task response]).statusCode);
+               if (((NSHTTPURLResponse *)[task response]).statusCode == 400) {
+                   [self logout];
+               }
+               failure(error,((NSHTTPURLResponse *)[task response]).statusCode );
 #endif
            }];
 }
